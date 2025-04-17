@@ -69,8 +69,8 @@ MonoBehaviour:
     y: 0
     width: 970
     height: 830
-  m_MinSize: {x: 102, y: 126}
-  m_MaxSize: {x: 4002, y: 4026}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -95,8 +95,8 @@ MonoBehaviour:
     y: 0
     width: 533
     height: 1301
-  m_MinSize: {x: 276, y: 126}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 275, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -1106,9 +1106,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -0.85937893, y: 1.3193887, z: 0.041941155}
+    m_Target: {x: -1.644471, y: 1.6721767, z: -7.840214}
     speed: 2
-    m_Value: {x: -0.85937893, y: 1.3193887, z: 0.041941155}
+    m_Value: {x: -1.644471, y: 1.6721767, z: -7.840214}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1154,13 +1154,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.05095223, y: 0.73389405, z: -0.0553617, w: -0.67510504}
+    m_Target: {x: 0.17180032, y: 0.42987788, z: -0.083772525, w: 0.8824809}
     speed: 2
-    m_Value: {x: -0.050951507, y: 0.7338836, z: -0.055360913, w: -0.67509544}
+    m_Value: {x: 0.17179167, y: 0.42985624, z: -0.08376831, w: 0.8824365}
   m_Size:
-    m_Target: 5.889823
+    m_Target: 2.4155333
     speed: 2
-    m_Value: 6.1673536
+    m_Value: 2.4155333
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1232,7 +1232,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 1cfbffff
+      m_ExpandedIDs: 5a4dffff3c53ffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1316,14 +1316,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: 78
-  m_LastProjectPath: E:\TheVanityTower\Game\Uni\The Vanity Tower
+  m_LastProjectPath: E:\TheVanityTower\Game\Git\The-Vanity-Tower
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 82a40000
-    m_LastClickedID: 42114
-    m_ExpandedIDs: 0000000082a4000000ca9a3b
+    m_SelectedIDs: 16e00000
+    m_LastClickedID: 57366
+    m_ExpandedIDs: 0000000016e0000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1352,7 +1352,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000082a40000
+    m_ExpandedIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
