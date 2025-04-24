@@ -23,7 +23,7 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MyInput(); // Llama a la función MyInput para obtener la entrada del usuario
+        //MyInput(); // Llama a la función MyInput para obtener la entrada del usuario
         Look(); // Llama a la función Look para actualizar la rotación de la cámara
 
     }
@@ -36,11 +36,11 @@ public class PlayerCamera : MonoBehaviour
 
     public void Look()
     {
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX; // Obtiene el movimiento del ratón en el eje X
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY; // Obtiene el movimiento del ratón en el eje Y
+        //float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensX; // Obtiene el movimiento del ratón en el eje X
+        //float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensY; // Obtiene el movimiento del ratón en el eje Y
 
-        //float mouseX = Input.GetAxisRaw("Horizontal") * Time.deltaTime * sensX; // Obtiene el movimiento del ratón en el eje X
-        //float mouseY = Input.GetAxisRaw("Vertical") * Time.deltaTime * sensX; // Obtiene el movimiento del ratón en el eje Y
+        float mouseX = Input.GetAxisRaw("Horizontal 1") * Time.deltaTime * sensX; // Obtiene el movimiento del ratón en el eje X
+        float mouseY = Input.GetAxisRaw("Vertical 1") * Time.deltaTime * sensX; // Obtiene el movimiento del ratón en el eje Y
 
         _yRotation += mouseX; // Actualiza la rotación en el eje Y
         _xRotation -= mouseY; // Actualiza la rotación en el eje X

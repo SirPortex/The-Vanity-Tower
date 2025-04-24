@@ -1,7 +1,19 @@
 using UnityEngine;
 
+
+[System.Serializable]
+public struct Weapon
+{
+    public Mesh mesh;
+    public Material material;
+}
+
 public class PlayerMovement : MonoBehaviour
 {
+    public Weapon[] weapons;
+    public int diegoIndex;
+    public GameObject sword;
+
     [Header("Movement")]
     public float speed;
     public float groundDrag;
@@ -43,6 +55,14 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             rb.linearDamping = 0; // Si estamos en el aire, no aplicamos fricci�n
+        }
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            diegoIndex++;
+            diegoIndex %= weapons.Length;
+            sword.GetComponent<MeshFilter>().mesh = weapons[diegoIndex].mesh;
+            sword.GetComponent<MeshRenderer>().material = weapons[diegoIndex].material;
         }
     }
 
