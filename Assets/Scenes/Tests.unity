@@ -512,7 +512,7 @@ PrefabInstance:
     - target: {fileID: -5754084199372789682, guid: 7138d8532ef24144c8d56bafb6ccd6da, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2453815912876994176, guid: 82e091d1b288051459be691275856e99, type: 3}
+      objectReference: {fileID: 6363328574607955711, guid: 7138d8532ef24144c8d56bafb6ccd6da, type: 3}
     - target: {fileID: 919132149155446097, guid: 7138d8532ef24144c8d56bafb6ccd6da, type: 3}
       propertyPath: m_Name
       value: Sword01
@@ -522,11 +522,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7138d8532ef24144c8d56bafb6ccd6da, type: 3}
---- !u!1 &779254785 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7138d8532ef24144c8d56bafb6ccd6da, type: 3}
-  m_PrefabInstance: {fileID: 750361199}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &820649013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1199,23 +1194,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a32c3f15fcd7824ea461cf27e0fab78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons:
-  - mesh: {fileID: 6363328574607955711, guid: 7138d8532ef24144c8d56bafb6ccd6da, type: 3}
-    material: {fileID: 2100000, guid: eaacb1a1b9070f94aad0f638bc1b2b25, type: 2}
-  - mesh: {fileID: -7692073165619929746, guid: 22936904331af0249bb7b8e4e54d2938, type: 3}
-    material: {fileID: 2100000, guid: 0fe668de481807c4dacbcd226668a329, type: 2}
-  - mesh: {fileID: 9090372253702305688, guid: 89a768b9310f2884b81c4c769db9a146, type: 3}
-    material: {fileID: 2100000, guid: bf6c9e164b5bb744a919f7e8e0ce2c4d, type: 2}
-  diegoIndex: 0
-  sword: {fileID: 779254785}
-  speed: 4
+  walkSpeed: 4
+  sprintSpeed: 7
   groundDrag: 5
-  playerHeight: 2
+  jumpForce: 5
+  jumpCooldown: 0.5
+  airMultiplier: 0.4
+  crouchSpeed: 2
+  crouchYScale: 0.5
+  playerHeight: 1.8
   grounded: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   orientation: {fileID: 820649014}
+  state: 0
 --- !u!1 &2024528551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,8 +1424,8 @@ Transform:
   m_GameObject: {fileID: 2104008496}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.61, y: 0.79, z: -2.36}
-  m_LocalScale: {x: 3.4446, y: 1.6058741, z: 1}
+  m_LocalPosition: {x: 4.61, y: 0.56, z: -2.36}
+  m_LocalScale: {x: 3.4446, y: 1.0533947, z: 0.36695}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
