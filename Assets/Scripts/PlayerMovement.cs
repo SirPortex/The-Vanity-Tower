@@ -7,13 +7,13 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     [Header("Movement")]
-
+    public float IdleSpeed;
     public float walkSpeed;
     public float sprintSpeed;
     public float groundDrag;
 
     bool sprint;
-    float speed;
+    public float speed;
 
     [Header("Jumping")]
 
@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         walking,
         sprinting,
         crouching,
+        idle,
         air
     }
 
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.F))
         {
             animator.SetBool("IsTeddy", true);
+            Debug.Log("Teddy");
         }
     }
 
@@ -138,15 +140,35 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.sprinting; // Cambia el estado a sprinting
             speed = sprintSpeed; // Establece la velocidad al valor de velocidad de sprint
+
+            animator.SetBool("IsRunning", true);
+
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsIdle", false);
         }
-        else if(grounded) // Si estamos en el suelo
+        else if(grounded && rb.linearVelocity.magnitude >= 0.1f) // Si estamos en el suelo
         {
             state = MovementState.walking; // Cambia el estado a walking
             speed = walkSpeed; // Establece la velocidad al valor de velocidad de caminar
+            animator.SetBool("IsWalking", true); 
+
+            animator.SetBool("IsIdle", false);
+            animator.SetBool("IsRunning", false);
+
         }
         else if(!grounded) // Si no estamos en el suelo
         {
             state = MovementState.air; // Cambia el estado a air
+        }
+
+        else if (grounded)
+        {
+            state = MovementState.idle; // Cambia el estado a idle
+
+            animator.SetBool("IsIdle", true); 
+
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsRunning", false);
         }
     }
 
