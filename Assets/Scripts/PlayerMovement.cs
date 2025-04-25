@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Animator animator;
 
     [Header("Movement")]
-
-    private float speed;
 
     public float walkSpeed;
     public float sprintSpeed;
     public float groundDrag;
 
     bool sprint;
+    float speed;
 
     [Header("Jumping")]
 
@@ -59,7 +59,6 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         rb = GetComponent<Rigidbody>(); 
         rb.freezeRotation = true; // Congela la rotaci�n del Rigidbody para evitar que se voltee
 
@@ -83,6 +82,11 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             rb.linearDamping = 0; // Si estamos en el aire, no aplicamos friccion
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            animator.SetBool("IsTeddy", true);
         }
     }
 
@@ -129,8 +133,6 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.crouching; // Cambia el estado a crouching
             speed = crouchSpeed; // Establece la velocidad al valor de velocidad de agachado
-
-            Debug.Log("Crouching"); // Imprime en la consola que estamos agachados
         }
         else if (grounded && Input.GetButton("Fire3")) // Si estamos en el suelo y se presiona la tecla de sprint
         {
