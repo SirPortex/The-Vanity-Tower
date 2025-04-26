@@ -183,6 +183,19 @@ public class PlayerMovement : MonoBehaviour
         else if(!grounded) // Si no estamos en el suelo
         {
             rb.AddForce(moveDirection.normalized * speed * 10f * airMultiplier, ForceMode.Force); // Aplica una fuerza al Rigidbody en la direcci�n de movimiento normalizada, multiplicada por la velocidad y un factor de 10 para aumentar la fuerza aplicada
+            
+            rb.AddForce(Vector3.down * 10f); // Aplica una fuerza hacia abajo al Rigidbody para simular la gravedad
+        }
+    }
+
+    private void OnCollisionEnter(Collision other) // Se llama cuando el objeto colisiona con otro objeto
+    {
+        if(other.gameObject.tag == "Ground") // Si el objeto con el que colisionamos tiene la etiqueta "Ground"
+        {
+            rb.linearDamping = groundDrag; // Establece la friccion del Rigidbody al valor de friccion del suelo
+            rb.linearDamping = 0; // Establece la resistencia del Rigidbody a 0
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z); // Reinicia la velocidad vertical del Rigidbody a 0
+
         }
     }
 
