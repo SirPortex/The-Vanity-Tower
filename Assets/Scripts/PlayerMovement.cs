@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -34,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
 
     public float playerHeight;
-    public bool grounded; 
+    public bool grounded;
+    public bool wantToStand;
     public LayerMask whatIsGround;
 
     public Transform orientation;
@@ -71,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un raycast hacia abajo
+        wantToStand = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si queremos levantarnos mediante un raycast hacia arriba
 
         MyInput();
         SpeedControl();
@@ -116,17 +119,34 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Crouch") && grounded)
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala de agachado
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse); // Ajuste para que al agacharse no estemos flotando, añadiendo una fuerza hacia abajo al Rigidbody
+            GetDown();
         }
 
         if(Input.GetButtonUp("Crouch") && grounded)
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
-            rb.AddForce(Vector3.up * 5f, ForceMode.Impulse); // Ajuste para que al levantarse no estemos flotando, añadiendo una fuerza hacia arriba al Rigidbody
+            GetUp();
         }
+    }
 
-        
+    private void GetDown()
+    {
+        transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala de agachado
+        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse); // Ajuste para que al agacharse no estemos flotando, añadiendo una fuerza hacia abajo al Rigidbody
+    }
+
+    private void GetUp()
+    {
+        if (!wantToStand)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            //transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+
+
+            //transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
+            rb.AddForce(Vector3.up * 1f, ForceMode.Impulse); // Ajuste para que al levantarse no estemos flotando, añadiendo una fuerza hacia arriba al Rigidbody
+
+            state = MovementState.idle;
+        }
     }
 
     private void StateHandler()
@@ -136,9 +156,13 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.crouching; // Cambia el estado a crouching
             speed = crouchSpeed; // Establece la velocidad al valor de velocidad de agachado
         }
-        else if (grounded && Input.GetButton("Fire3")) // Si estamos en el suelo y se presiona la tecla de sprint
+        else if (grounded && Input.GetButton("Fire3") && !wantToStand) // Si estamos en el suelo y se presiona la tecla de sprint
         {
+
             state = MovementState.sprinting; // Cambia el estado a sprinting
+
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
+
             speed = sprintSpeed; // Establece la velocidad al valor de velocidad de sprint
 
             animator.SetBool("IsRunning", true);
@@ -146,9 +170,12 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsIdle", false);
         }
-        else if(grounded && rb.linearVelocity.magnitude >= 0.1f) // Si estamos en el suelo
+        else if(grounded && rb.linearVelocity.magnitude >= 0.1f && !wantToStand) // Si estamos en el suelo
         {
             state = MovementState.walking; // Cambia el estado a walking
+
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
+
             speed = walkSpeed; // Establece la velocidad al valor de velocidad de caminar
             animator.SetBool("IsWalking", true); 
 
@@ -156,14 +183,16 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsRunning", false);
 
         }
-        else if(!grounded) // Si no estamos en el suelo
+        else if(!grounded && !wantToStand) // Si no estamos en el suelo
         {
             state = MovementState.air; // Cambia el estado a air
         }
 
-        else if (grounded)
+        else if (grounded && !wantToStand)
         {
             state = MovementState.idle; // Cambia el estado a idle
+
+            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
 
             animator.SetBool("IsIdle", true); 
 
@@ -220,5 +249,16 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true; // Reinicia el estado de salto, permitiendo que el jugador salte nuevamente
+    }
+
+    private void OnDrawGizmos() // Se llama para dibujar Gizmos en la escena
+    {
+        Gizmos.color = Color.red; // Establece el color de los Gizmos a rojo
+        Gizmos.DrawRay(transform.position, Vector3.down * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia abajo desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
+        Gizmos.color = Color.green; // Establece el color de los Gizmos a verde
+        Gizmos.DrawRay(transform.position, Vector3.up * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia arriba desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
+        Gizmos.color = Color.blue; // Establece el color de los Gizmos a azul
+        Gizmos.DrawRay(transform.position, orientation.forward * verticalInput + orientation.right * horizontalInput); // Dibuja un rayo en la direccion de movimiento
+
     }
 }
