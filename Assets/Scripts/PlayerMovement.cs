@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         air
     }
 
+    RaycastHit hit;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -72,8 +74,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un raycast hacia abajo
-        wantToStand = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si queremos levantarnos mediante un raycast hacia arriba
+        //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un raycast hacia abajo
+        //wantToStand = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si queremos levantarnos mediante un raycast hacia arriba
+        grounded = Physics.SphereCast(transform.position, 0.2f, Vector3.down, out hit, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un spherecast hacia abajo
+        wantToStand = Physics.SphereCast(transform.position, 0.4f, Vector3.up, out hit, playerHeight * 0.5f + 0.1f, whatIsGround); // Comprobamos si queremos levantarnos mediante un spherecast hacia arriba
+
 
         MyInput();
         SpeedControl();
@@ -254,9 +259,21 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos() // Se llama para dibujar Gizmos en la escena
     {
         Gizmos.color = Color.red; // Establece el color de los Gizmos a rojo
-        Gizmos.DrawRay(transform.position, Vector3.down * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia abajo desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
+        //Gizmos.DrawRay(transform.position, Vector3.down * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia abajo desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
+
+        Vector3 start = transform.position;
+        Vector3 end = start + Vector3.down * (playerHeight * 0.5f + 0.2f);
+        Gizmos.DrawWireSphere(end, 0.2f);
+        //Gizmos.DrawLine(start, end);
+
         Gizmos.color = Color.green; // Establece el color de los Gizmos a verde
-        Gizmos.DrawRay(transform.position, Vector3.up * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia arriba desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
+        //Gizmos.DrawRay(transform.position, Vector3.up * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia arriba desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
+
+        Vector3 start2 = transform.position;
+        Vector3 end2 = start2 + Vector3.up * (playerHeight * 0.5f + 0.1f);
+        Gizmos.DrawWireSphere(end2, 0.4f);
+        //Gizmos.DrawLine(start2, end2);
+
         Gizmos.color = Color.blue; // Establece el color de los Gizmos a azul
         Gizmos.DrawRay(transform.position, orientation.forward * verticalInput + orientation.right * horizontalInput); // Dibuja un rayo en la direccion de movimiento
 
