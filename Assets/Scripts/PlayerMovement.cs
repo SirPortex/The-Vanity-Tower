@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -28,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Crouching")]
     public float crouchSpeed;
     public float crouchYScale;
+    public float groundAdjustment;
+    public float sphereCastRadius;
+    public bool readyToCrouch;
+
     private float startYScale;
 
     bool crouch;
@@ -76,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un raycast hacia abajo
         //wantToStand = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si queremos levantarnos mediante un raycast hacia arriba
-        grounded = Physics.SphereCast(transform.position, 0.3f, Vector3.down, out hit, playerHeight * 0.5f + 0.1f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un spherecast hacia abajo
+        grounded = Physics.SphereCast(transform.position, sphereCastRadius, Vector3.down, out hit, playerHeight * 0.5f + groundAdjustment, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un spherecast hacia abajo
         wantToStand = Physics.SphereCast(transform.position, 0.4f, Vector3.up, out hit, playerHeight * 0.5f + 0.1f, whatIsGround); // Comprobamos si queremos levantarnos mediante un spherecast hacia arriba
 
 
@@ -106,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+
+
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal"); 
@@ -114,29 +122,54 @@ public class PlayerMovement : MonoBehaviour
         sprint = Input.GetButton("Fire3");
         crouch = Input.GetButton("Crouch");
 
+        if (Input.GetButton("Jump"))
+        {
+            //animator.SetBool("IsJumping", true); // Cambia el estado de la animacion a saltando
+            //StartCoroutine(JumpingAnim()); // Llama a la coroutine JumpingAnim para reproducir la animacion de salto
+            animator.SetBool("IsWalking", false); // Cambia el estado de la animacion a no caminando
+            animator.SetBool("IsRunning", false); // Cambia el estado de la animacion a no corriendo
+        }
+        else
+        {
+            animator.SetBool("IsJumping", false); // Cambia el estado de la animacion a no saltando
+        }
 
         if(Input.GetButton("Jump") && readyToJump && grounded) // Si se presiona la tecla de salto, estamos listos para saltar y estamos en el suelo
         {
+            animator.SetBool("IsJumping", true); // Cambia el estado de la animacion a saltando
+            StartCoroutine(JumpingAnim()); // Llama a la coroutine JumpingAnim para reproducir la animacion de salto
             readyToJump = false; // Cambia el estado a no listo para saltar
             Jump(); // Llama a la funcion Jump para saltar
             Invoke(nameof(ResetJump), jumpCooldown); // Reinicia el estado de salto después de un tiempo de espera
         }
 
-        if (Input.GetButtonDown("Crouch") && grounded)
+        if (Input.GetButtonDown("Crouch") && grounded && readyToCrouch)
         {
+            readyToJump = false;
             GetDown();
+            //groundAdjustment = -0.1f;
+            sphereCastRadius = 0.25f;
         }
 
-        if(Input.GetButtonUp("Crouch") && grounded)
+        if(Input.GetButtonUp("Crouch") && grounded && readyToCrouch)
         {
+            readyToJump = true;
             GetUp();
+            //groundAdjustment = 0f;
+            sphereCastRadius = 0.3f;
         }
+    }
+
+    public IEnumerator JumpingAnim()
+    {
+        yield return new WaitForSeconds(0.2f);
+        animator.SetBool("IsJumping", false);
     }
 
     private void GetDown()
     {
         transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala de agachado
-        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse); // Ajuste para que al agacharse no estemos flotando, añadiendo una fuerza hacia abajo al Rigidbody
+        rb.AddForce(Vector3.down * 5f, ForceMode.Impulse); // Ajuste para que al agacharse no estemos flotando, añadiendo una fuerza hacia abajo al Rigidbody 
     }
 
     private void GetUp()
@@ -144,13 +177,12 @@ public class PlayerMovement : MonoBehaviour
         if (!wantToStand)
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-            //transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 
             //transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
-            rb.AddForce(Vector3.up * 1f, ForceMode.Impulse); // Ajuste para que al levantarse no estemos flotando, añadiendo una fuerza hacia arriba al Rigidbody
-
+            //rb.AddForce(Vector3.up * 0.1f, ForceMode.Impulse); // Ajuste para que al levantarse no estemos flotando, añadiendo una fuerza hacia arriba al Rigidbody
             state = MovementState.idle;
+
         }
     }
 
@@ -164,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
         else if (grounded && Input.GetButton("Fire3") && !wantToStand) // Si estamos en el suelo y se presiona la tecla de sprint
         {
 
+            readyToCrouch = true;
             state = MovementState.sprinting; // Cambia el estado a sprinting
 
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
@@ -175,8 +208,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", false);
             animator.SetBool("IsIdle", false);
         }
-        else if(grounded && rb.linearVelocity.magnitude >= 0.1f && !wantToStand) // Si estamos en el suelo
+        else if(grounded && rb.linearVelocity.magnitude >= 0.2f && !wantToStand) // Si estamos en el suelo
         {
+            readyToCrouch = true;
+
             state = MovementState.walking; // Cambia el estado a walking
 
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
@@ -190,11 +225,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(!grounded && !wantToStand) // Si no estamos en el suelo
         {
+            readyToCrouch = false;
             state = MovementState.air; // Cambia el estado a air
         }
 
         else if (grounded && !wantToStand)
         {
+            readyToCrouch = true;
+
+
             state = MovementState.idle; // Cambia el estado a idle
 
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z); // Cambia la escala Y del objeto a la escala normal
@@ -262,8 +301,8 @@ public class PlayerMovement : MonoBehaviour
         //Gizmos.DrawRay(transform.position, Vector3.down * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia abajo desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
 
         Vector3 start = transform.position;
-        Vector3 end = start + Vector3.down * (playerHeight * 0.5f + 0.1f);
-        Gizmos.DrawWireSphere(end, 0.3f);
+        Vector3 end = start + Vector3.down * (playerHeight * 0.5f + groundAdjustment);
+        Gizmos.DrawWireSphere(end, sphereCastRadius);
         //Gizmos.DrawLine(start, end);
 
         Gizmos.color = Color.green; // Establece el color de los Gizmos a verde
@@ -276,6 +315,9 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.color = Color.blue; // Establece el color de los Gizmos a azul
         Gizmos.DrawRay(transform.position, orientation.forward * verticalInput + orientation.right * horizontalInput); // Dibuja un rayo en la direccion de movimiento
+
+        
+
 
     }
 }
