@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using Unity.Cinemachine;
@@ -14,9 +15,9 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed;
     public float sprintSpeed;
     public float groundDrag;
+    public float speed;
 
     bool sprint;
-    public float speed;
 
     [Header("Jumping")]
 
@@ -45,16 +46,22 @@ public class PlayerMovement : MonoBehaviour
     public bool wantToStand;
     public LayerMask whatIsGround;
 
+    [Header("Attack")]
+
+    public int combo;
+    public float comboCooldown;
+    public float maxComboTime;
+    public bool isAttaking;
+
+    bool attack;
+
     public Transform orientation;
+    public MovementState state;
 
     float horizontalInput;
     float verticalInput;
-
     Vector3 moveDirection;
-
     Rigidbody rb;
-
-    public MovementState state;
 
     public enum MovementState
     {
@@ -85,7 +92,8 @@ public class PlayerMovement : MonoBehaviour
         grounded = Physics.SphereCast(transform.position, sphereCastRadius, Vector3.down, out hit, playerHeight * 0.5f + groundAdjustment, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un spherecast hacia abajo
         wantToStand = Physics.SphereCast(transform.position, 0.4f, Vector3.up, out hit, playerHeight * 0.5f + 0.1f, whatIsGround); // Comprobamos si queremos levantarnos mediante un spherecast hacia arriba
 
-
+        Ggggg01();
+        Ggggg02();
         MyInput();
         SpeedControl();
         StateHandler();
@@ -106,12 +114,84 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Ggggg01()
+    {
+        if(combo == 1)
+        {
+            Debug.Log("01");
+            animator.SetBool("IsAttacking01", true);
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (stateInfo.IsName("Attack01") || stateInfo.normalizedTime >= 1f)
+            {
+                combo = 0;
+                animator.SetBool("IsAttacking01", false);
+            }
+            else
+            {
+                if(Input.GetButtonDown("Attack"))
+                {
+                    Debug.Log("PasamosAl02");
+                    combo = 2;
+                    animator.SetBool("IsAttacking01", false);
+                    animator.SetBool("IsAttacking02", true);
+                }
+            }
+        }
+    }
+
+    public void Ggggg02()
+    {
+        if(combo == 2)
+        {
+            Debug.Log("02");
+            animator.SetBool("IsAttacking01", false);
+            animator.SetBool("IsAttacking02", true);
+            AnimatorStateInfo stateInfo2 = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (stateInfo2.IsName("Attack02") || stateInfo2.normalizedTime >= 1f)
+            {
+                combo = 0;
+                animator.SetBool("IsAttacking02", false);
+            }
+            else
+            {
+                if(Input.GetButtonDown("Attack"))
+                {
+                    Debug.Log("PasamosAl01");
+                    combo = 1;
+                    animator.SetBool("IsAttacking02", false);
+                    animator.SetBool("IsAttacking01", true);
+                }
+            }
+        }
+        //if (combo == 2)
+        //{
+        //    Debug.Log("02");
+        //    animator.SetBool("IsAttacking02", true);
+        //    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        //    if (stateInfo.IsName("Attack02") || stateInfo.normalizedTime >= 1f)
+        //    {
+        //        combo = 0;
+        //        animator.SetBool("IsAttacking02", false);
+        //    }
+        //    if(stateInfo.IsName("Attack02") || stateInfo.normalizedTime <= 1f)
+        //    {
+        //        if(Input.GetButtonDown("Attack"))
+        //        {
+        //            animator.SetBool("IsAttacking02", false); 
+        //            animator.SetBool("IsAttacking01", true);
+        //            combo = 1; // Cambia el combo a 1
+        //        }
+        //    }
+        //}
+    }
+
     void FixedUpdate()
     {
         MovePlayer(); // Llama a la funcion MovePlayer para mover al jugador
     }
-
-
 
 
     private void MyInput()
@@ -121,6 +201,12 @@ public class PlayerMovement : MonoBehaviour
         jumping = Input.GetButton("JumpUp");
         sprint = Input.GetButton("Sprint");
         crouch = Input.GetButton("Crouch");
+        attack = Input.GetButton("Attack");
+
+        if (Input.GetButtonDown("Attack"))
+        {
+            combo++;
+        }        
 
         if (Input.GetButton("JumpUp"))
         {
