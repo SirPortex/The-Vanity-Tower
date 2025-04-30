@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.F))
         {
             animator.SetBool("IsTeddy", true);
-            Debug.Log("Teddy");
+            //Debug.Log("Teddy");
         }
     }
 
@@ -118,11 +118,11 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal"); 
         verticalInput = Input.GetAxisRaw("Vertical");
-        jumping = Input.GetButton("Jump");
-        sprint = Input.GetButton("Fire3");
+        jumping = Input.GetButton("JumpUp");
+        sprint = Input.GetButton("Sprint");
         crouch = Input.GetButton("Crouch");
 
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("JumpUp"))
         {
             //animator.SetBool("IsJumping", true); // Cambia el estado de la animacion a saltando
             //StartCoroutine(JumpingAnim()); // Llama a la coroutine JumpingAnim para reproducir la animacion de salto
@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", false); // Cambia el estado de la animacion a no saltando
         }
 
-        if(Input.GetButton("Jump") && readyToJump && grounded) // Si se presiona la tecla de salto, estamos listos para saltar y estamos en el suelo
+        if(Input.GetButton("JumpUp") && readyToJump && grounded) // Si se presiona la tecla de salto, estamos listos para saltar y estamos en el suelo
         {
             animator.SetBool("IsJumping", true); // Cambia el estado de la animacion a saltando
             StartCoroutine(JumpingAnim()); // Llama a la coroutine JumpingAnim para reproducir la animacion de salto
@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.crouching; // Cambia el estado a crouching
             speed = crouchSpeed; // Establece la velocidad al valor de velocidad de agachado
         }
-        else if (grounded && Input.GetButton("Fire3") && !wantToStand) // Si estamos en el suelo y se presiona la tecla de sprint
+        else if (grounded && Input.GetButton("Sprint") && !wantToStand) // Si estamos en el suelo y se presiona la tecla de sprint
         {
 
             readyToCrouch = true;
