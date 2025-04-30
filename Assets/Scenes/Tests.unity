@@ -2813,6 +2813,11 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  combo: 0
+  comboVar: 1
+  comboCooldown: 0
+  maxComboTime: 0
+  isAttaking: 0
   orientation: {fileID: 820649014}
   state: 0
 --- !u!1 &2024528551

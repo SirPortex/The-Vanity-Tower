@@ -48,9 +48,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Attack")]
 
-    public int combo;
-    public float comboCooldown;
-    public float maxComboTime;
+    public int combo = 0;
+    public int comboVar = 1;
     public bool isAttaking;
 
     bool attack;
@@ -120,77 +119,41 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("01");
             animator.SetBool("IsAttacking01", true);
+            animator.SetBool("IsAttacking02", false);
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
             if (stateInfo.IsName("Attack01") || stateInfo.normalizedTime >= 1f)
             {
                 combo = 0;
+                comboVar = 2;
                 animator.SetBool("IsAttacking01", false);
-            }
-            else
-            {
-                if(Input.GetButtonDown("Attack"))
-                {
-                    Debug.Log("PasamosAl02");
-                    combo = 2;
-                    animator.SetBool("IsAttacking01", false);
-                    animator.SetBool("IsAttacking02", true);
-                }
             }
         }
     }
 
     public void Ggggg02()
     {
-        if(combo == 2)
+        if (combo == 2)
         {
             Debug.Log("02");
-            animator.SetBool("IsAttacking01", false);
             animator.SetBool("IsAttacking02", true);
-            AnimatorStateInfo stateInfo2 = animator.GetCurrentAnimatorStateInfo(0);
+            animator.SetBool("IsAttacking01", false);
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-            if (stateInfo2.IsName("Attack02") || stateInfo2.normalizedTime >= 1f)
+            if (stateInfo.IsName("Attack02") || stateInfo.normalizedTime >= 1f)
             {
                 combo = 0;
+                comboVar = 1;
                 animator.SetBool("IsAttacking02", false);
-            }
-            else
-            {
-                if(Input.GetButtonDown("Attack"))
-                {
-                    Debug.Log("PasamosAl01");
-                    combo = 1;
-                    animator.SetBool("IsAttacking02", false);
-                    animator.SetBool("IsAttacking01", true);
-                }
+
             }
         }
-        //if (combo == 2)
-        //{
-        //    Debug.Log("02");
-        //    animator.SetBool("IsAttacking02", true);
-        //    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-        //    if (stateInfo.IsName("Attack02") || stateInfo.normalizedTime >= 1f)
-        //    {
-        //        combo = 0;
-        //        animator.SetBool("IsAttacking02", false);
-        //    }
-        //    if(stateInfo.IsName("Attack02") || stateInfo.normalizedTime <= 1f)
-        //    {
-        //        if(Input.GetButtonDown("Attack"))
-        //        {
-        //            animator.SetBool("IsAttacking02", false); 
-        //            animator.SetBool("IsAttacking01", true);
-        //            combo = 1; // Cambia el combo a 1
-        //        }
-        //    }
-        //}
     }
 
     void FixedUpdate()
     {
         MovePlayer(); // Llama a la funcion MovePlayer para mover al jugador
+
     }
 
 
@@ -203,9 +166,9 @@ public class PlayerMovement : MonoBehaviour
         crouch = Input.GetButton("Crouch");
         attack = Input.GetButton("Attack");
 
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetButton("Attack"))
         {
-            combo++;
+            combo = comboVar;
         }        
 
         if (Input.GetButton("JumpUp"))
