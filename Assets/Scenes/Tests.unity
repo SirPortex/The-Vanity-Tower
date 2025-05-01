@@ -2802,6 +2802,7 @@ MonoBehaviour:
   jumpForce: 6.5
   jumpCooldown: 0.6
   airMultiplier: 0.4
+  readyToJump: 0
   crouchSpeed: 2
   crouchYScale: 0.5
   groundAdjustment: 0
@@ -2815,9 +2816,8 @@ MonoBehaviour:
     m_Bits: 64
   combo: 0
   comboVar: 1
-  comboCooldown: 0
-  maxComboTime: 0
   isAttaking: 0
+  rtValue: 0
   orientation: {fileID: 820649014}
   state: 0
 --- !u!1 &2024528551

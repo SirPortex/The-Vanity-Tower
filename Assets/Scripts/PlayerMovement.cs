@@ -4,6 +4,7 @@ using System.Collections;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -24,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    bool readyToJump;
+    public bool readyToJump;
 
     bool jumping;
 
@@ -52,7 +53,14 @@ public class PlayerMovement : MonoBehaviour
     public int comboVar = 1;
     public bool isAttaking;
 
-    bool attack;
+    bool attackPC;
+
+    [Header("Gamepad")]
+
+    public Gamepad gamepad; // Referencia al Gamepad actual
+    public float rtValue;
+
+    [Header("Other")]
 
     public Transform orientation;
     public MovementState state;
@@ -76,6 +84,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        isAttaking = false; // Inicializa el estado de ataque como falso
+
         rb = GetComponent<Rigidbody>(); 
         rb.freezeRotation = true; // Congela la rotaci�n del Rigidbody para evitar que se voltee
 
@@ -86,16 +96,20 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        gamepad = Gamepad.current; // Obtiene la referencia al Gamepad actual
+
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un raycast hacia abajo
         //wantToStand = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si queremos levantarnos mediante un raycast hacia arriba
         grounded = Physics.SphereCast(transform.position, sphereCastRadius, Vector3.down, out hit, playerHeight * 0.5f + groundAdjustment, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un spherecast hacia abajo
         wantToStand = Physics.SphereCast(transform.position, 0.4f, Vector3.up, out hit, playerHeight * 0.5f + 0.1f, whatIsGround); // Comprobamos si queremos levantarnos mediante un spherecast hacia arriba
 
-        Ggggg01();
-        Ggggg02();
+        Attack01();
+        Attack02();
         MyInput();
         SpeedControl();
         StateHandler();
+        DetectController();
 
         if(grounded)
         {
@@ -105,17 +119,25 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearDamping = 0; // Si estamos en el aire, no aplicamos friccion
         }
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            animator.SetBool("IsTeddy", true);
-            //Debug.Log("Teddy");
-        }
     }
 
-    public void Ggggg01()
+    public void DetectController()
     {
-        if(combo == 1)
+        if(gamepad != null)
+        {
+            rtValue = gamepad.rightTrigger.ReadValue(); // Lee el valor del gatillo derecho del Gamepad
+            if(rtValue >= 0.3f && !isAttaking) // Si el valor del gatillo derecho es mayor que 0.5
+            {
+                combo = comboVar;
+                isAttaking = true;
+            }
+
+        }
+
+    }
+    public void Attack01()
+    {
+        if(combo == 1 && isAttaking)
         {
             Debug.Log("01");
             animator.SetBool("IsAttacking01", true);
@@ -126,26 +148,30 @@ public class PlayerMovement : MonoBehaviour
             {
                 combo = 0;
                 comboVar = 2;
+                
                 animator.SetBool("IsAttacking01", false);
+                StartCoroutine(AttackDelay());
             }
         }
     }
 
-    public void Ggggg02()
+    public void Attack02()
     {
-        if (combo == 2)
+        if (combo == 2 && isAttaking)
         {
             Debug.Log("02");
             animator.SetBool("IsAttacking02", true);
             animator.SetBool("IsAttacking01", false);
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
+
             if (stateInfo.IsName("Attack02") || stateInfo.normalizedTime >= 1f)
             {
                 combo = 0;
                 comboVar = 1;
+                
                 animator.SetBool("IsAttacking02", false);
-
+                StartCoroutine(AttackDelay());
             }
         }
     }
@@ -155,7 +181,21 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer(); // Llama a la funcion MovePlayer para mover al jugador
 
     }
-
+    private IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+        isAttaking = false;
+    }
+    private IEnumerator AttackDelay01()
+    {
+        yield return new WaitForSeconds(0.1f);
+        comboVar = 2;
+    }
+    private IEnumerator AttackDelay02()
+    {
+        yield return new WaitForSeconds(0.1f);
+        comboVar = 1;
+    }
 
     private void MyInput()
     {
@@ -164,12 +204,13 @@ public class PlayerMovement : MonoBehaviour
         jumping = Input.GetButton("JumpUp");
         sprint = Input.GetButton("Sprint");
         crouch = Input.GetButton("Crouch");
-        attack = Input.GetButton("Attack");
+        attackPC = Input.GetButton("Attack");
 
-        if (Input.GetButton("Attack"))
+        if (Input.GetButton("Attack") && !isAttaking)
         {
             combo = comboVar;
-        }        
+            isAttaking = true;
+        }
 
         if (Input.GetButton("JumpUp"))
         {
