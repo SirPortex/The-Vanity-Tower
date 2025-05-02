@@ -55,10 +55,18 @@ public class PlayerMovement : MonoBehaviour
 
     bool attackPC;
 
+    [Header("Block")]
+
+    public bool isBlocking;
+
+    bool blockPC;
+
+
     [Header("Gamepad")]
 
     public Gamepad gamepad; // Referencia al Gamepad actual
     public float rtValue;
+    public float ltValue;
 
     [Header("Other")]
 
@@ -126,10 +134,18 @@ public class PlayerMovement : MonoBehaviour
         if(gamepad != null)
         {
             rtValue = gamepad.rightTrigger.ReadValue(); // Lee el valor del gatillo derecho del Gamepad
+            ltValue = gamepad.leftTrigger.ReadValue(); // Lee el valor del gatillo izquierdo del Gamepad
             if(rtValue >= 0.3f && !isAttaking) // Si el valor del gatillo derecho es mayor que 0.5
             {
                 combo = comboVar;
                 isAttaking = true;
+            }
+            if(ltValue >= 0.3f && !isBlocking)
+            {
+                isBlocking = true;
+                animator.SetBool("IsBlocking", true);
+                StartCoroutine(BlockDelay());
+                Invoke(nameof(CanBlockAgain), 1f);
             }
 
         }
@@ -197,6 +213,17 @@ public class PlayerMovement : MonoBehaviour
         comboVar = 1;
     }
 
+    private IEnumerator BlockDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("IsBlocking", false);
+    }
+
+    public void CanBlockAgain()
+    {
+        isBlocking = false;
+    }
+
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal"); 
@@ -205,6 +232,15 @@ public class PlayerMovement : MonoBehaviour
         sprint = Input.GetButton("Sprint");
         crouch = Input.GetButton("Crouch");
         attackPC = Input.GetButton("Attack");
+        blockPC = Input.GetButton("Block");
+
+        if (Input.GetButtonDown("Block") && !isBlocking)
+        {
+            isBlocking = true;
+            animator.SetBool("IsBlocking", true);
+            StartCoroutine(BlockDelay());
+            Invoke(nameof(CanBlockAgain), 1f);
+        }
 
         if (Input.GetButton("Attack") && !isAttaking)
         {
