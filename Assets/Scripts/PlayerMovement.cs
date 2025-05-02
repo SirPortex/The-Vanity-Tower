@@ -142,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if(ltValue >= 0.3f && !isBlocking)
             {
+                isAttaking = true;
                 isBlocking = true;
                 animator.SetBool("IsBlocking", true);
                 StartCoroutine(BlockDelay());
@@ -155,19 +156,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if(combo == 1 && isAttaking)
         {
+            isBlocking = true;
             Debug.Log("01");
             animator.SetBool("IsAttacking01", true);
             animator.SetBool("IsAttacking02", false);
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-            if (stateInfo.IsName("Attack01") || stateInfo.normalizedTime >= 1f)
-            {
-                combo = 0;
-                comboVar = 2;
-                
-                animator.SetBool("IsAttacking01", false);
-                StartCoroutine(AttackDelay());
-            }
+            StartCoroutine(AttackDelay01());
         }
     }
 
@@ -175,42 +168,40 @@ public class PlayerMovement : MonoBehaviour
     {
         if (combo == 2 && isAttaking)
         {
+            isBlocking = true;
             Debug.Log("02");
             animator.SetBool("IsAttacking02", true);
             animator.SetBool("IsAttacking01", false);
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            StartCoroutine(AttackDelay02());
 
-
-            if (stateInfo.IsName("Attack02") || stateInfo.normalizedTime >= 1f)
-            {
-                combo = 0;
-                comboVar = 1;
-                
-                animator.SetBool("IsAttacking02", false);
-                StartCoroutine(AttackDelay());
-            }
         }
     }
 
     void FixedUpdate()
     {
         MovePlayer(); // Llama a la funcion MovePlayer para mover al jugador
+    }
 
-    }
-    private IEnumerator AttackDelay()
-    {
-        yield return new WaitForSeconds(0.3f);
-        isAttaking = false;
-    }
     private IEnumerator AttackDelay01()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
+        combo = 0;
         comboVar = 2;
+        animator.SetBool("IsAttacking01", false);
+        //yield return new WaitForSeconds(0.1f);
+        isAttaking = false;
+        isBlocking = false;
     }
+
     private IEnumerator AttackDelay02()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.4f);
+        combo = 0;
         comboVar = 1;
+        animator.SetBool("IsAttacking02", false);
+        //yield return new WaitForSeconds(0.1f);
+        isAttaking = false;
+        isBlocking = false;
     }
 
     private IEnumerator BlockDelay()
@@ -221,6 +212,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void CanBlockAgain()
     {
+        isAttaking = false;
         isBlocking = false;
     }
 
@@ -236,6 +228,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Block") && !isBlocking)
         {
+            isAttaking = true;
             isBlocking = true;
             animator.SetBool("IsBlocking", true);
             StartCoroutine(BlockDelay());
@@ -441,9 +434,5 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.color = Color.blue; // Establece el color de los Gizmos a azul
         Gizmos.DrawRay(transform.position, orientation.forward * verticalInput + orientation.right * horizontalInput); // Dibuja un rayo en la direccion de movimiento
-
-        
-
-
     }
 }
