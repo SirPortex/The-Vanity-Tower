@@ -135,18 +135,19 @@ public class PlayerMovement : MonoBehaviour
         {
             rtValue = gamepad.rightTrigger.ReadValue(); // Lee el valor del gatillo derecho del Gamepad
             ltValue = gamepad.leftTrigger.ReadValue(); // Lee el valor del gatillo izquierdo del Gamepad
-            if(rtValue >= 0.3f && !isAttaking) // Si el valor del gatillo derecho es mayor que 0.5
+            if(rtValue >= 0.5f && !isAttaking) // Si el valor del gatillo derecho es mayor que 0.5
             {
                 combo = comboVar;
                 isAttaking = true;
+                isBlocking = true;
             }
-            if(ltValue >= 0.3f && !isBlocking)
+            else if(ltValue >= 0.5f && !isBlocking)
             {
                 isAttaking = true;
                 isBlocking = true;
                 animator.SetBool("IsBlocking", true);
                 StartCoroutine(BlockDelay());
-                Invoke(nameof(CanBlockAgain), 1f);
+                //Invoke(nameof(CanBlockAgain), 1f);
             }
 
         }
@@ -188,8 +189,8 @@ public class PlayerMovement : MonoBehaviour
         combo = 0;
         comboVar = 2;
         animator.SetBool("IsAttacking01", false);
-        //yield return new WaitForSeconds(0.1f);
         isAttaking = false;
+        //yield return new WaitForSeconds(0.1f);
         isBlocking = false;
     }
 
@@ -199,8 +200,8 @@ public class PlayerMovement : MonoBehaviour
         combo = 0;
         comboVar = 1;
         animator.SetBool("IsAttacking02", false);
-        //yield return new WaitForSeconds(0.1f);
         isAttaking = false;
+        //yield return new WaitForSeconds(0.1f);
         isBlocking = false;
     }
 
@@ -208,6 +209,10 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         animator.SetBool("IsBlocking", false);
+        yield return new WaitForSeconds(0.5f);
+        isBlocking = false;
+        //yield return new WaitForSeconds(0.1f);
+        isAttaking = false;
     }
 
     public void CanBlockAgain()
@@ -232,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
             isBlocking = true;
             animator.SetBool("IsBlocking", true);
             StartCoroutine(BlockDelay());
-            Invoke(nameof(CanBlockAgain), 1f);
+            //Invoke(nameof(CanBlockAgain), 1f);
         }
 
         if (Input.GetButton("Attack") && !isAttaking)
