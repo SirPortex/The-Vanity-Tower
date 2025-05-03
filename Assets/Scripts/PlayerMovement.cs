@@ -439,5 +439,6 @@ public class PlayerMovement : MonoBehaviour
 
         Gizmos.color = Color.blue; // Establece el color de los Gizmos a azul
         Gizmos.DrawRay(transform.position, orientation.forward * verticalInput + orientation.right * horizontalInput); // Dibuja un rayo en la direccion de movimiento
+
     }
 }

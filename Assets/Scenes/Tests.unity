@@ -12527,6 +12527,7 @@ GameObject:
   - component: {fileID: 1843261587}
   - component: {fileID: 1843261586}
   - component: {fileID: 1843261588}
+  - component: {fileID: 1843261589}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -12615,9 +12616,26 @@ MonoBehaviour:
   combo: 0
   comboVar: 1
   isAttaking: 0
+  isBlocking: 0
   rtValue: 0
+  ltValue: 0
   orientation: {fileID: 820649014}
   state: 0
+--- !u!114 &1843261589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843261585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05f0d8d8c28d444490a2a06fa8d03b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 1843261588}
+  isPushing: 0
+  pushing: 0
 --- !u!1 &2024528551
 GameObject:
   m_ObjectHideFlags: 0
