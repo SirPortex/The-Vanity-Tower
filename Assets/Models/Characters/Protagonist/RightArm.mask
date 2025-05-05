@@ -7,5 +7,105 @@ AvatarMask:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RightArm
-  m_Mask: 01000000010000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000
-  m_Elements: []
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 1
+  - m_Path: Armature/Principal
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Anular01.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Anular01.L/Anular02.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Anular01.L/Anular02.L/Anular03.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Anular01.L/Anular02.L/Anular03.L/Anular03.L_end
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Corazon01.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Corazon01.L/Corazon02.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Corazon01.L/Corazon02.L/Corazon03.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Corazon01.L/Corazon02.L/Corazon03.L/Corazon03.L_end
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Indice01.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Indice01.L/Indice02.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Indice01.L/Indice02.L/Indice03.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Indice01.L/Indice02.L/Indice03.L/Indice03.L_end
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Menique01.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Menique01.L/Menique02.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Menique01.L/Menique02.L/Menique03.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Menique01.L/Menique02.L/Menique03.L/Menique03.L_end
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Pulgar01.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Pulgar01.L/Pulgar02.L
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.L/Brazo01.L/Brazo02.L/Mano.L/Pulgar01.L/Pulgar02.L/Pulgar02.L_end
+    m_Weight: 0
+  - m_Path: Armature/Principal/Hombro.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Anular01.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Anular01.R/Anular02.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Anular01.R/Anular02.R/Anular03.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Anular01.R/Anular02.R/Anular03.R/Anular03.R_end
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Corazon01.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Corazon01.R/Corazon02.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Corazon01.R/Corazon02.R/Corazon03.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Corazon01.R/Corazon02.R/Corazon03.R/Corazon03.R_end
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Indice01.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Indice01.R/Indice02.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Indice01.R/Indice02.R/Indice03.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Indice01.R/Indice02.R/Indice03.R/Indice03.R_end
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Menique01.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Menique01.R/Menique02.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Menique01.R/Menique02.R/Menique03.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Menique01.R/Menique02.R/Menique03.R/Menique03.R_end
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Pulgar01.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Pulgar01.R/Pulgar02.R
+    m_Weight: 1
+  - m_Path: Armature/Principal/Hombro.R/Brazo01.R/Brazo02.R/Mano.R/Pulgar01.R/Pulgar02.R/Pulgar02.R_end
+    m_Weight: 1
+  - m_Path: Arms
+    m_Weight: 0

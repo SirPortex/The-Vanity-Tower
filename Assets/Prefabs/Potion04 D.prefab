@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3790052272339533376
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.756
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.299
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.994
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4167709722252097612, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8e3ffc13f17c5da4ba2839fcb185f7bb, type: 2}
+    - target: {fileID: -3991628978225795043, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b59011dc0c5ef71418f09d1519e49ace, type: 2}
+    - target: {fileID: 919132149155446097, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_Name
+      value: Potion04 D
+      objectReference: {fileID: 0}
+    - target: {fileID: 2730851760114467752, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e301ea93a8fb11c4da9803c2acbb3ce5, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: -2713271465915591033, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3069712938247839198, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4429273268663913449}
+  m_SourcePrefab: {fileID: 100100000, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+--- !u!1 &2162070667747091358 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3069712938247839198, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+  m_PrefabInstance: {fileID: 3790052272339533376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4429273268663913449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2162070667747091358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e4149d5eabb8741905158d10cf623a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxWobble: 10
+  WobbleSpeed: 1
+  Recovery: 1
