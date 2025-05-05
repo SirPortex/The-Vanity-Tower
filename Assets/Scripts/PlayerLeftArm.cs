@@ -44,12 +44,8 @@ public class PlayerLeftArm : MonoBehaviour
         {
             if(!playerMovement.isAttaking || !playerMovement.isBlocking)
             {
-                playerMovement.readyToAttack = false;
-                playerMovement.readyToBlock = false;
-                playerMovement.isBlocking = true;
-                playerMovement.isAttaking = true;
-
-                EmoteHandler();
+                CancelRightArm();
+                Invoke(nameof(EmoteHandler), 0.35f);
             }
 
         }
@@ -65,13 +61,9 @@ public class PlayerLeftArm : MonoBehaviour
             {
                 if (!playerMovement.isAttaking || !playerMovement.isBlocking)
                 {
-                    playerMovement.readyToAttack = false;
-                    playerMovement.readyToBlock = false;
+                    CancelRightArm();
                     Invoke(nameof(EmoteHandler), 0.35f);
-                    playerMovement.isBlocking = true;
-                    playerMovement.isAttaking = true;
-
-                    //EmoteHandler();
+   
                 }
             }
         }
@@ -96,7 +88,7 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void EmoteHandler()
     {
-        CancelRightArm();
+        //CancelRightArm();
 
         isEmoting = true;
         emoteIndex = Random.Range(1, 7);
@@ -105,37 +97,37 @@ public class PlayerLeftArm : MonoBehaviour
             case 1:
 
                 playerMovement.animator.SetBool("Emote1", true);
-                Invoke("StopEmote", 3f);
+                Invoke(nameof(StopEmote), 3f);
 
                 break;
             case 2:
 
                 playerMovement.animator.SetBool("Emote2", true);
-                Invoke("StopEmote", 3f);
+                Invoke(nameof(StopEmote), 3f);
 
                 break;
             case 3:
 
                 playerMovement.animator.SetBool("Emote3", true);
-                Invoke("StopEmote", 3f);
+                Invoke(nameof(StopEmote), 3f);
 
                 break;
             case 4:
 
                 playerMovement.animator.SetBool("Emote4", true);
-                Invoke("StopEmote", 3f);
+                Invoke(nameof(StopEmote), 3f);
 
                 break;
             case 5:
 
                 playerMovement.animator.SetBool("Emote5", true);
-                Invoke("StopEmote", 3f);
+                Invoke(nameof(StopEmote), 3f);
 
                 break;
             case 6:
 
                 playerMovement.animator.SetBool("Emote6", true);
-                Invoke("StopEmote", 3f);
+                Invoke(nameof(StopEmote), 3f);
 
                 break;
         }
@@ -157,6 +149,8 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void CancelRightArm()
     {
+        playerMovement.readyToAttack = false;
+        playerMovement.readyToBlock = false;
         playerMovement.isBlocking = true;
         playerMovement.isAttaking = true;
     }
