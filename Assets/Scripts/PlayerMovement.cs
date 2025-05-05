@@ -53,11 +53,15 @@ public class PlayerMovement : MonoBehaviour
     public int comboVar = 1;
     public bool isAttaking;
 
+    public bool readyToAttack = true;
+
     bool attackPC;
 
     [Header("Block")]
 
     public bool isBlocking;
+
+    public bool readyToBlock = true;
 
     bool blockPC;
 
@@ -135,13 +139,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rtValue = gamepad.rightTrigger.ReadValue(); // Lee el valor del gatillo derecho del Gamepad
             ltValue = gamepad.leftTrigger.ReadValue(); // Lee el valor del gatillo izquierdo del Gamepad
-            if(rtValue >= 0.5f && !isAttaking) // Si el valor del gatillo derecho es mayor que 0.5
+            if(rtValue >= 0.5f && !isAttaking && readyToAttack) // Si el valor del gatillo derecho es mayor que 0.5
             {
                 combo = comboVar;
                 isAttaking = true;
                 isBlocking = true;
             }
-            else if(ltValue >= 0.5f && !isBlocking)
+            else if(ltValue >= 0.5f && !isBlocking && readyToBlock)
             {
                 isAttaking = true;
                 isBlocking = true;
@@ -231,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
         attackPC = Input.GetButton("Attack");
         blockPC = Input.GetButton("Block");
 
-        if (Input.GetButtonDown("Block") && !isBlocking)
+        if (Input.GetButtonDown("Block") && !isBlocking && readyToBlock)
         {
             isAttaking = true;
             isBlocking = true;
@@ -240,10 +244,11 @@ public class PlayerMovement : MonoBehaviour
             //Invoke(nameof(CanBlockAgain), 1f);
         }
 
-        if (Input.GetButton("Attack") && !isAttaking)
+        if (Input.GetButton("Attack") && !isAttaking && readyToAttack)
         {
             combo = comboVar;
             isAttaking = true;
+            isBlocking = true;
         }
 
         if (Input.GetButton("JumpUp"))
