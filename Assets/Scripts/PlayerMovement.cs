@@ -96,6 +96,9 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Application.targetFrameRate = 120;
+        //QualitySettings.vSyncCount = 1;
+
         isAttaking = false; // Inicializa el estado de ataque como falso
 
         rb = GetComponent<Rigidbody>(); 
@@ -139,13 +142,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rtValue = gamepad.rightTrigger.ReadValue(); // Lee el valor del gatillo derecho del Gamepad
             ltValue = gamepad.leftTrigger.ReadValue(); // Lee el valor del gatillo izquierdo del Gamepad
-            if(rtValue >= 0.5f && !isAttaking && readyToAttack) // Si el valor del gatillo derecho es mayor que 0.5
+            if(rtValue >= 0.5f && !isAttaking && readyToAttack && ltValue < 0.1f) // Si el valor del gatillo derecho es mayor que 0.5
             {
                 combo = comboVar;
                 isAttaking = true;
                 isBlocking = true;
             }
-            else if(ltValue >= 0.5f && !isBlocking && readyToBlock)
+            else if(ltValue >= 0.2f && !isBlocking && readyToBlock && rtValue < 0.4f)
             {
                 isAttaking = true;
                 isBlocking = true;
@@ -196,6 +199,7 @@ public class PlayerMovement : MonoBehaviour
         isAttaking = false;
         //yield return new WaitForSeconds(0.1f);
         isBlocking = false;
+
     }
 
     private IEnumerator AttackDelay02()
@@ -207,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
         isAttaking = false;
         //yield return new WaitForSeconds(0.1f);
         isBlocking = false;
+
     }
 
     private IEnumerator BlockDelay()
@@ -215,8 +220,9 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("IsBlocking", false);
         yield return new WaitForSeconds(0.5f);
         isBlocking = false;
-        //yield return new WaitForSeconds(0.1f);
         isAttaking = false;
+        yield return new WaitForSeconds(0.2f);
+
     }
 
     public void CanBlockAgain()
@@ -235,16 +241,19 @@ public class PlayerMovement : MonoBehaviour
         attackPC = Input.GetButton("Attack");
         blockPC = Input.GetButton("Block");
 
-        if (Input.GetButtonDown("Block") && !isBlocking && readyToBlock)
+        if (blockPC && !isBlocking && readyToBlock && !attackPC)
         {
             isAttaking = true;
             isBlocking = true;
+
+            combo = 0;
+
             animator.SetBool("IsBlocking", true);
             StartCoroutine(BlockDelay());
             //Invoke(nameof(CanBlockAgain), 1f);
         }
 
-        if (Input.GetButton("Attack") && !isAttaking && readyToAttack)
+        if (attackPC && !isAttaking && readyToAttack && !blockPC)
         {
             combo = comboVar;
             isAttaking = true;
