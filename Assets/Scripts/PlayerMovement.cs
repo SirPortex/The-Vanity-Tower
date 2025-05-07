@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         //grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un raycast hacia abajo
         //wantToStand = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, whatIsGround); // Comprobamos si queremos levantarnos mediante un raycast hacia arriba
         grounded = Physics.SphereCast(transform.position, sphereCastRadius, Vector3.down, out hit, playerHeight * 0.5f + groundAdjustment, whatIsGround); // Comprobamos si estamos tocando el suelo mediante un spherecast hacia abajo
-        wantToStand = Physics.SphereCast(transform.position, 0.4f, Vector3.up, out hit, playerHeight * 0.5f + 0.1f, whatIsGround); // Comprobamos si queremos levantarnos mediante un spherecast hacia arriba
+        wantToStand = Physics.SphereCast(transform.position, 0.4f, Vector3.up, out hit, playerHeight * 0.5f - 0.3f, whatIsGround); // Comprobamos si queremos levantarnos mediante un spherecast hacia arriba
 
         Attack01();
         Attack02();
@@ -272,7 +272,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", false); // Cambia el estado de la animacion a no saltando
         }
 
-        if(Input.GetButton("JumpUp") && readyToJump && grounded) // Si se presiona la tecla de salto, estamos listos para saltar y estamos en el suelo
+        if(Input.GetButton("JumpUp") && readyToJump && grounded && !wantToStand) // Si se presiona la tecla de salto, estamos listos para saltar y estamos en el suelo
         {
             animator.SetBool("IsJumping", true); // Cambia el estado de la animacion a saltando
             StartCoroutine(JumpingAnim()); // Llama a la coroutine JumpingAnim para reproducir la animacion de salto
@@ -283,17 +283,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Crouch") && grounded && readyToCrouch)
         {
+            readyToCrouch = false;
             readyToJump = false;
             GetDown();
-            //groundAdjustment = -0.1f;
+            groundAdjustment = -0.1f;
             sphereCastRadius = 0.25f;
         }
 
-        if(Input.GetButtonUp("Crouch") && grounded && readyToCrouch)
+        if (Input.GetButtonUp("Crouch") && grounded && !readyToCrouch)
         {
+            readyToCrouch = true;
             readyToJump = true;
             GetUp();
-            //groundAdjustment = 0f;
+            groundAdjustment = 0f;
             sphereCastRadius = 0.3f;
         }
     }
@@ -328,6 +330,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(grounded && Input.GetButton("Crouch")) // Si se presiona la tecla de agachado y estamos en el suelo
         {
+            //readyToJump = false;
             state = MovementState.crouching; // Cambia el estado a crouching
             speed = crouchSpeed; // Establece la velocidad al valor de velocidad de agachado
         }
@@ -363,7 +366,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(!grounded && !wantToStand) // Si no estamos en el suelo
         {
-            readyToCrouch = false;
+            //readyToCrouch = false;
             state = MovementState.air; // Cambia el estado a air
         }
 
@@ -447,7 +450,7 @@ public class PlayerMovement : MonoBehaviour
         //Gizmos.DrawRay(transform.position, Vector3.up * (playerHeight * 0.5f + 0.2f)); // Dibuja un rayo hacia arriba desde la posicion del objeto actual, con una longitud igual a la mitad de la altura del jugador + 0.2f
 
         Vector3 start2 = transform.position;
-        Vector3 end2 = start2 + Vector3.up * (playerHeight * 0.5f + 0.1f);
+        Vector3 end2 = start2 + Vector3.up * (playerHeight * 0.5f - 0.3f);
         Gizmos.DrawWireSphere(end2, 0.4f);
         //Gizmos.DrawLine(start2, end2);
 
