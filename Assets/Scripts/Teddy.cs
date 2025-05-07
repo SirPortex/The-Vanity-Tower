@@ -15,7 +15,7 @@ public class Teddy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerMovementTeddy.isTeddyActive && !playerMovementTeddy.teddyReady && !playerMovementTeddy.isEmoting)
+        if(playerMovementTeddy.readyToTeddy)
         {
             teddyAnimator.SetBool("IsDancing", true);
             Invoke(nameof(StopDancing), 9.8f);

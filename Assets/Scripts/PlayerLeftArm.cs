@@ -26,8 +26,14 @@ public class PlayerLeftArm : MonoBehaviour
     public float teddyMaxTime;
     public bool teddyReady;
     public bool isTeddyActive = false;
+    public bool readyToTeddy = false;
 
-    bool teddy;
+     bool teddy;
+
+    [Header("Item")]
+
+    public bool upCross;
+    bool item;
 
     [Header("Objects")]
 
@@ -59,6 +65,7 @@ public class PlayerLeftArm : MonoBehaviour
 
         if (emote && !isEmoting && !isTeddyActive && readyToEmote)
         {
+            isTeddyActive = true;
             CancelRightArm();
             Invoke(nameof(EmoteHandler), 0.3f);
         }
@@ -75,11 +82,18 @@ public class PlayerLeftArm : MonoBehaviour
         if (playerMovement.gamepad != null)
         {
             downCross = playerMovement.gamepad.dpad.down.IsPressed();
+            upCross = playerMovement.gamepad.dpad.up.IsPressed();
 
             if (downCross && !isEmoting && !isTeddyActive && readyToEmote)
             {
+                isTeddyActive = true;
                 CancelRightArm();
                 Invoke(nameof(EmoteHandler), 0.3f);
+            }
+
+            if (upCross)
+            {
+
             }
         }
     }
@@ -152,7 +166,7 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void StopEmote()
     {
-
+        isTeddyActive = false;
         ActivateRightArm();
         emoteIndex = 0;
         isEmoting = false;
@@ -182,6 +196,8 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void Teddy()
     {
+        readyToTeddy = true;
+        isTeddyActive = true;
         playerMovement.animator.SetBool("IsTeddy", true);
         isTeddyActive = true;
         teddyReady = false;
@@ -190,6 +206,7 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void FinishTeddy()
     {
+        readyToTeddy = false;
         ActivateRightArm();
         playerMovement.animator.SetBool("IsTeddy", false);
         isTeddyActive = false;
