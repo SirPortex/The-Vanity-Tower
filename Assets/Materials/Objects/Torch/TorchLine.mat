@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Liquid02 D
-  m_Shader: {fileID: -6465566751694194690, guid: 85e9c21dd881df5468756f1bfb6f02a5, type: 3}
+  m_Name: TorchLine
+  m_Shader: {fileID: -6465566751694194690, guid: ebb540e3607c03245a6ec72f4a8a69ce, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,17 +38,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fill: 0.546
+    - _Fade_Distance: 75
+    - _OutLine_Thickness: 0.00023
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _WobbleX: 0
-    - _WobbleZ: 0
     m_Colors:
-    - _SubColor: {r: 0.7169812, g: 0.24688502, b: 0.31026495, a: 0}
-    - _TopColor: {r: 0.8396226, g: 0.32079923, b: 0.3899756, a: 1}
+    - _OutLine_Color: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &5029321083039567125
+--- !u!114 &7121356004587957808
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

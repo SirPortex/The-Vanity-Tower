@@ -56,6 +56,22 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b59011dc0c5ef71418f09d1519e49ace, type: 2}
+    - target: {fileID: -1135289321206351444, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1135289321206351444, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.024994403
+      objectReference: {fileID: 0}
+    - target: {fileID: 278302106773532314, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 278302106773532314, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0164
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 654988329b2c4ca468b1a12a0aec5cd2, type: 3}
       propertyPath: m_Name
       value: Potion04 D

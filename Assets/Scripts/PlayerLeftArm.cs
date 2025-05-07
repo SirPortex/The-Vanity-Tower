@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,17 +34,22 @@ public class PlayerLeftArm : MonoBehaviour
     [Header("Item")]
 
     public bool upCross;
+    public bool readyToItem = true;
+    public bool canItem = true;
+    public int ItemIndex;
     bool item;
 
     [Header("Objects")]
 
     public GameObject[] gameObjects;
-    public int gameObjectIndex;
 
     RaycastHit hit;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //gameObjects[1].gameObject.SetActive(false);
+
         playerMovement= GetComponentInParent<PlayerMovement>();
         readyToEmote = true;
     }
@@ -62,9 +68,11 @@ public class PlayerLeftArm : MonoBehaviour
     {
         emote = Input.GetButtonDown("Emote");
         teddy = Input.GetButtonDown("Teddy");
+        item = Input.GetButtonDown("Item");
 
         if (emote && !isEmoting && !isTeddyActive && readyToEmote)
         {
+            canItem = false;
             isTeddyActive = true;
             CancelRightArm();
             Invoke(nameof(EmoteHandler), 0.3f);
@@ -72,8 +80,16 @@ public class PlayerLeftArm : MonoBehaviour
 
         if (teddy && !isTeddyActive && teddyReady && !pushing)
         {
+            canItem = false;
             CancelRightArm();
             Invoke(nameof(Teddy), 0.3f);
+        }
+
+        if(item && readyToItem && canItem)
+        {
+            readyToItem = false;
+            ItemIndex %= gameObjects.Length;
+            ItemHandler();
         }
     }
 
@@ -86,14 +102,17 @@ public class PlayerLeftArm : MonoBehaviour
 
             if (downCross && !isEmoting && !isTeddyActive && readyToEmote)
             {
+                canItem = false;
                 isTeddyActive = true;
                 CancelRightArm();
                 Invoke(nameof(EmoteHandler), 0.3f);
             }
 
-            if (upCross)
+            if (upCross && readyToItem && canItem)
             {
-
+                readyToItem = false;
+                ItemIndex %= gameObjects.Length;
+                ItemHandler();
             }
         }
     }
@@ -102,6 +121,7 @@ public class PlayerLeftArm : MonoBehaviour
     {
         if (pushing && !isPushing)
         {
+            canItem = false;
             isPushing = true;
             readyToEmote = false;
             playerMovement.readyToAttack = false;
@@ -110,6 +130,7 @@ public class PlayerLeftArm : MonoBehaviour
         }
         if(!pushing && isPushing)
         {
+            canItem = true;
             isPushing = false;
             readyToEmote = true;
             playerMovement.readyToAttack = true;
@@ -164,6 +185,87 @@ public class PlayerLeftArm : MonoBehaviour
 
     }
 
+    public void ItemHandler()
+    {
+        switch (ItemIndex)
+        {
+            case 0:
+
+                Invoke(nameof(Air), 0.2f);
+
+                break;
+            case 1:
+
+                DrinkPotion();
+
+                break;
+            case 2:
+
+                DrinkPotion();
+
+                break;
+            case 3:
+
+                DrinkPotion();
+
+                break;
+            case 4:
+
+                DrinkPotion();
+
+                break;
+            case 5:
+
+                DrinkPotion();
+
+                break;
+            case 6:
+
+                DrinkPotion();
+
+                break;
+            case 7:
+
+                gameObjects[ItemIndex].SetActive(true);
+                playerMovement.animator.SetBool("IsTorch", true);
+                StartCoroutine(StopTorch());
+
+                break;
+        }
+    }
+    public void DrinkPotion()
+    {
+        gameObjects[ItemIndex].SetActive(true);
+        playerMovement.animator.SetBool("IsDrinking", true);
+        StartCoroutine(StopDrinking());
+    }
+
+    public IEnumerator StopDrinking()
+    {
+        yield return new WaitForSeconds(3.8f);
+        playerMovement.animator.SetBool("IsDrinking", false);
+        yield return new WaitForSeconds(0.5f);
+        gameObjects[ItemIndex].SetActive(false);
+        readyToItem = true;
+        ItemIndex = 0;
+    }
+
+    public IEnumerator StopTorch()
+    {
+        yield return new WaitForSeconds(10f);
+        playerMovement.animator.SetBool("IsTorch", false);
+        yield return new WaitForSeconds(0.5f);
+        gameObjects[ItemIndex].SetActive(false);
+        readyToItem = true;
+        ItemIndex = 0;
+    }
+
+    public void Air()
+    {
+        readyToItem = true;
+        ItemIndex = 0;
+    }
+
     public void StopEmote()
     {
         isTeddyActive = false;
@@ -176,6 +278,8 @@ public class PlayerLeftArm : MonoBehaviour
         playerMovement.animator.SetBool("Emote4", false);
         playerMovement.animator.SetBool("Emote5", false);
         playerMovement.animator.SetBool("Emote6", false);
+
+        canItem = true;
     }
 
     public void CancelRightArm()
@@ -210,6 +314,7 @@ public class PlayerLeftArm : MonoBehaviour
         ActivateRightArm();
         playerMovement.animator.SetBool("IsTeddy", false);
         isTeddyActive = false;
+        canItem = true;
         Invoke(nameof(TeddyCooldown), teddyMaxTime);
     }
     public void TeddyCooldown()

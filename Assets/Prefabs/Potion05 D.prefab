@@ -60,9 +60,25 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 97eb34ea8faac1e43a306a36fa8f4ff8, type: 2}
+    - target: {fileID: 302576768887724186, guid: 96e285a460a2a9c47b96f92071b047ec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 302576768887724186, guid: 96e285a460a2a9c47b96f92071b047ec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.012
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 96e285a460a2a9c47b96f92071b047ec, type: 3}
       propertyPath: m_Name
       value: Potion05 D
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649688991623326067, guid: 96e285a460a2a9c47b96f92071b047ec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649688991623326067, guid: 96e285a460a2a9c47b96f92071b047ec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.011367053
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
