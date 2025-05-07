@@ -3130,10 +3130,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   pushing: 0
+  isPushing: 0
   isEmoting: 0
   emoteIndex: 0
   downCross: 0
-  readyToEmote: 0
+  readyToEmote: 1
   teddyCooldown: 0
   teddyMaxTime: 10
   teddyReady: 1

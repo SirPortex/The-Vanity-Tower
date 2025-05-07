@@ -9,6 +9,7 @@ public class PlayerLeftArm : MonoBehaviour
 
     public LayerMask pushableLayer;
     public bool pushing;
+    public bool isPushing;
 
     [Header("Emotes")]
 
@@ -37,8 +38,8 @@ public class PlayerLeftArm : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //playerMovement.GetComponent<PlayerMovement>();
         playerMovement= GetComponentInParent<PlayerMovement>();
+        readyToEmote = true;
     }
 
     // Update is called once per frame
@@ -85,19 +86,20 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void Push()
     {
-        if (pushing)
+        if (pushing && !isPushing)
         {
-
+            isPushing = true;
             readyToEmote = false;
-            //playerMovement.readyToAttack = false;
-            //playerMovement.readyToBlock = false;
+            playerMovement.readyToAttack = false;
+            playerMovement.readyToBlock = false;
             playerMovement.animator.SetBool("IsPushing", true);
         }
-        if(!pushing)
+        if(!pushing && isPushing)
         {
+            isPushing = false;
             readyToEmote = true;
-            //playerMovement.readyToAttack = true;
-            //playerMovement.readyToBlock = true;
+            playerMovement.readyToAttack = true;
+            playerMovement.readyToBlock = true;
             playerMovement.animator.SetBool("IsPushing", false);
         }
     }
