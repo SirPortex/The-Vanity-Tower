@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("01");
             animator.SetBool("IsAttacking01", true);
             animator.SetBool("IsAttacking02", false);
-            StartCoroutine(AttackDelay01());
+            Invoke(nameof(AttackDelay01), 0.4f);
         }
     }
 
@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("02");
             animator.SetBool("IsAttacking02", true);
             animator.SetBool("IsAttacking01", false);
-            StartCoroutine(AttackDelay02());
+            Invoke(nameof(AttackDelay02), 0.4f);
 
         }
     }
@@ -190,28 +190,22 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer(); // Llama a la funcion MovePlayer para mover al jugador
     }
 
-    private IEnumerator AttackDelay01()
+    public void AttackDelay01()
     {
-        yield return new WaitForSeconds(0.4f);
         combo = 0;
         comboVar = 2;
         animator.SetBool("IsAttacking01", false);
         isAttaking = false;
-        //yield return new WaitForSeconds(0.1f);
         isBlocking = false;
-
     }
 
-    private IEnumerator AttackDelay02()
+    public void AttackDelay02()
     {
-        yield return new WaitForSeconds(0.4f);
         combo = 0;
         comboVar = 1;
         animator.SetBool("IsAttacking02", false);
         isAttaking = false;
-        //yield return new WaitForSeconds(0.1f);
         isBlocking = false;
-
     }
 
     private IEnumerator BlockDelay()
