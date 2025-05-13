@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     private KeyCode Esc = KeyCode.Escape;
     //public AudioClip SelectClip;
 
+    public bool readyToPlay = false;
+    public bool readyToExit = false;
+
     public enum GameManagerVariables { TIME, POINTS };//para facilitar el codigo
 
     private void Awake()
@@ -31,18 +34,16 @@ public class GameManager : MonoBehaviour
         time += Time.deltaTime;
         if (Input.GetKeyDown(Esc))
         {
+            readyToPlay = false;
             SceneManager.LoadScene("Menu");
-            AudioManager.instance.ClearAudio();
+            //AudioManager.instance.ClearAudio();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
+            readyToPlay = false;
             time = 0;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            AudioManager.instance.ClearAudio();
-        }
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            ExitGame();
+            //AudioManager.instance.ClearAudio();
         }
     }
 
@@ -69,6 +70,17 @@ public class GameManager : MonoBehaviour
         time = 0;
         SceneManager.LoadScene(sceneName);
         //AudioManager.instance.ClearAudio();
+    }
+
+    public void ReadyToPlay()
+    {
+        readyToPlay = true;
+    }
+
+    public void ReadyToExit()
+    {
+        readyToExit = true;
+        Invoke("ExitGame", 2f);
     }
 
     public void ExitGame()
