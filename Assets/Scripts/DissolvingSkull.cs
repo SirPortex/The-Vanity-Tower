@@ -18,8 +18,13 @@ public class DissolvingSkull : MonoBehaviour
     {
         if (GameManager.instance.readyToExit)
         {
-            skullMaterial.SetFloat("_DissolveAmount", Mathf.Lerp(skullMaterial.GetFloat("_DissolveAmount"), 1f, Time.deltaTime));
+            Invoke(nameof(DissolveMaterial), 0.5f);
 
         }
+    }
+
+    void DissolveMaterial()
+    {
+        skullMaterial.SetFloat("_DissolveAmount", Mathf.Lerp(skullMaterial.GetFloat("_DissolveAmount"), 1f, Time.deltaTime));
     }
 }

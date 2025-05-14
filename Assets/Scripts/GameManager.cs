@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
     public void ReadyToExit()
     {
         readyToExit = true;
-        Invoke("ExitGame", 2f);
+        Invoke("ExitGame", 2.5f);
     }
 
     public void ExitGame()
