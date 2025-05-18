@@ -5,6 +5,10 @@ using UnityEngine;
 public class ShotBullet : MonoBehaviour
 {
     public GameObjectPool bulletPool;
+    public Animator animator;
+
+    public bool canShoot = false;
+
     FieldOfView fov;
 
 
@@ -17,9 +21,10 @@ public class ShotBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (fov.canSeePlayer)
+        if (fov.canSeePlayer && !canShoot)
         {
-            Invoke(nameof(Pium), 1f);
+            canShoot = true;
+            Invoke(nameof(Pium), 2f);
         }
     }
 
@@ -29,11 +34,20 @@ public class ShotBullet : MonoBehaviour
 
         GameObject obj = bulletPool.GimmeInactiveGameObject();
 
+        animator.SetBool("Shooting", true); //animacion de disparo
+        Invoke(nameof(DisableAnimation), 1f); //desactivar la animacion de disparo
+
         if (obj)
         {
             obj.SetActive(true); //quitar el boli del estuche, ya no esta disponible en la poool
             obj.transform.position = transform.position;
             obj.GetComponent<Bullet>().SetDirection(transform.forward);
+            canShoot = false;
         }
+    }
+
+    void DisableAnimation()
+    {
+        animator.SetBool("Shooting", false);
     }
 }
