@@ -8,7 +8,13 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float maxTime;
 
+    public bool readyToDestroy = false;
+
     public GameObject player;
+    public GameObject bullet;
+    public LayerMask whatIsObstacle;
+
+    //public GameObjectPool bulletPool;
 
     private float currentTime;
     private Vector3 _dir;
@@ -24,8 +30,9 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         currentTime += Time.deltaTime;
-        if (currentTime >= maxTime)
+        if (currentTime >= maxTime || readyToDestroy)
         {
+            readyToDestroy = false;
             currentTime = 0;
             gameObject.SetActive(false); //Se "devuelve" a la pool
         }
@@ -45,7 +52,15 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Hit Player");
-            player.GetComponentInParent<PlayerEssence>().healthSlider.value -= 0.25f;
+            player.GetComponentInParent<PlayerEssence>().TakeDamage(10f);
+        }
+
+        if (((1 << other.gameObject.layer) & whatIsObstacle) != 0 )
+        {
+            Debug.Log("Hit Obstacle");
+            //bullet.SetActive(false); //Se "devuelve" a la pool
+            readyToDestroy = true;
+            
         }
     }
 }

@@ -42,7 +42,7 @@ public class GameObjectPool : MonoBehaviour
         return null; //Si no encontramos nada devolvemos NULL, osea nada.
     }
 
-    private GameObject AddGameObjectToPool() //añadir GameObject a la pool
+    public GameObject AddGameObjectToPool() //añadir GameObject a la pool
     {
         GameObject clone = Instantiate(objectToPool);
         clone.SetActive(false); // desactivamos el objecto para que no se utilice de primeras, consume menos recuros asi

@@ -2494,7 +2494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToPool: {fileID: 2976053535238404097, guid: 2f182ea3981703d4ea0d93fbeea84c7a, type: 3}
-  poolSize: 1
+  poolSize: 3
   shouldExpand: 1
 --- !u!1 &768345846
 GameObject:
@@ -6004,7 +6004,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 467651703}
   fearSlider: {fileID: 1582073132}
-  health: 1
+  maxhealth: 100
+  currentHealth: 0
+  targetHealth: 0
+  veloicity: 0
+  smoothTime: 0.3
   fear: 1
   borderAnimator: {fileID: 1896619945}
 --- !u!1 &1896619941

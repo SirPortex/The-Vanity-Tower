@@ -10,7 +10,12 @@ public class PlayerEssence : MonoBehaviour
 
     [Header("Health")]
 
-    public float health = 1f;
+    public float maxhealth = 100f;
+    public float currentHealth;
+    public float targetHealth;
+    public float veloicity = 0f;
+    public float smoothTime = 0.3f;
+
 
     [Header("Fear")]
 
@@ -23,7 +28,12 @@ public class PlayerEssence : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        health = healthSlider.value;
+        currentHealth = maxhealth;
+        targetHealth = maxhealth;
+        healthSlider.maxValue = maxhealth;
+        healthSlider.value = maxhealth;
+
+
         fearSlider.value = fear;
         borderAnimator.GetComponent<Animator>();
     }
@@ -31,6 +41,27 @@ public class PlayerEssence : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currentHealth = Mathf.SmoothDamp(currentHealth, targetHealth, ref veloicity, smoothTime);
+        healthSlider.value = currentHealth;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        targetHealth -= damage;
+        targetHealth = Mathf.Clamp(targetHealth, 0, maxhealth);
+
+        borderAnimator.SetBool("IsDamaged", true);
+        Invoke(nameof(ReturnToIdle), 0.5f);
+    }
+
+    public void Heal(float heal)
+    {
+        targetHealth += heal;
+        targetHealth = Mathf.Clamp(targetHealth, 0, maxhealth);
+    }
+
+    public void ReturnToIdle()
+    {
+        borderAnimator.SetBool("IsDamaged", false);
     }
 }

@@ -152,3 +152,7 @@ MonoBehaviour:
   speed: 10
   maxTime: 3
   player: {fileID: 0}
+  bullet: {fileID: 2976053535238404097}
+  whatIsObstacle:
+    serializedVersion: 2
+    m_Bits: 448
