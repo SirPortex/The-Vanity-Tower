@@ -151,3 +151,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   maxTime: 3
+  player: {fileID: 0}

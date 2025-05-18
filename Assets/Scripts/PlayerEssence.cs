@@ -23,7 +23,7 @@ public class PlayerEssence : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        healthSlider.value = health;
+        health = healthSlider.value;
         fearSlider.value = fear;
         borderAnimator.GetComponent<Animator>();
     }

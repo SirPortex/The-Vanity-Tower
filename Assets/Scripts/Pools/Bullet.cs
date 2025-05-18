@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float maxTime;
 
+    public GameObject player;
+
     private float currentTime;
     private Vector3 _dir;
     private Rigidbody _rb;
@@ -16,6 +18,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
@@ -36,5 +39,13 @@ public class Bullet : MonoBehaviour
     public void SetDirection(Vector3 value)
     {
         _dir = value;
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Hit Player");
+            player.GetComponentInParent<PlayerEssence>().healthSlider.value -= 0.25f;
+        }
     }
 }

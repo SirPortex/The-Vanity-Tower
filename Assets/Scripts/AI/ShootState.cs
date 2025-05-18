@@ -9,7 +9,6 @@ public class ShootState : State
 
         RotationReference reference = owner.GetComponentInChildren<RotationReference>(); //Referencia al objeto al que se va a rotar
         reference.LookAtTarget(); //Mirar al objeto de referencia
-        Debug.Log("Shooting");
 
         return nextState;
     }
