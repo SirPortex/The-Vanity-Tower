@@ -10,12 +10,22 @@ public class PlayerEssence : MonoBehaviour
 
     [Header("Health")]
 
-    public float health;
+    public float health = 1f;
+
+    [Header("Fear")]
+
+    public float fear = 1f;
+
+    [Header("Emotions")]
+
+    public Animator borderAnimator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        healthSlider.value = health;
+        fearSlider.value = fear;
+        borderAnimator.GetComponent<Animator>();
     }
 
     // Update is called once per frame
