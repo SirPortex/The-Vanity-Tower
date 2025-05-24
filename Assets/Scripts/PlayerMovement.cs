@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Block")]
 
+    public GameObject blockCollider;
+
     public bool isBlocking;
 
     public bool readyToBlock = true;
@@ -210,8 +212,10 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator BlockDelay()
     {
+        blockCollider.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         animator.SetBool("IsBlocking", false);
+        blockCollider.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         isBlocking = false;
         isAttaking = false;

@@ -10,7 +10,6 @@ public class SeeAction : Action // dar a la bombilla para que lo complete bien l
     public override bool Check(GameObject owner)
     {
         GameObject target = owner.GetComponent<TargetReference>().target; //Cogemos al Target para saber a que perseguir
-        //AdvancedVision coneCollider = owner.GetComponentInChildren<AdvancedVision>(); // Cogemos el cono que va a ser la vision
         FieldOfView fieldOfView = owner.GetComponentInChildren<FieldOfView>();
 
         if (fieldOfView.canSeePlayer)
@@ -22,13 +21,6 @@ public class SeeAction : Action // dar a la bombilla para que lo complete bien l
         {
             return false;
         }
-
-        //if(vision == 100f)
-        //{
-        //    return true;
-        //}
-
-        //return false;
 
     }
 

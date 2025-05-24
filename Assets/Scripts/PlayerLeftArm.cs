@@ -187,6 +187,8 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void ItemHandler()
     {
+        isTeddyActive = true;
+
         switch (ItemIndex)
         {
             case 0:
@@ -248,6 +250,8 @@ public class PlayerLeftArm : MonoBehaviour
         gameObjects[ItemIndex].SetActive(false);
         readyToItem = true;
         ItemIndex = 0;
+
+        isTeddyActive = false;
     }
 
     public IEnumerator StopTorch()
@@ -258,12 +262,14 @@ public class PlayerLeftArm : MonoBehaviour
         gameObjects[ItemIndex].SetActive(false);
         readyToItem = true;
         ItemIndex = 0;
+        isTeddyActive = false;
     }
 
     public void Air()
     {
         readyToItem = true;
         ItemIndex = 0;
+        isTeddyActive = false;
     }
 
     public void StopEmote()

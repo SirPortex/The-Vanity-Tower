@@ -23,16 +23,6 @@ public class RotationReference : MonoBehaviour
 
     public void LookAtTarget()
     {
-        //Vector3 direction = new Vector3(targetLookAt.transform.position.x, 0, targetLookAt.transform.position.z) - rotationReference.transform.position; //Direccion a la que se va a mirar
-        //Quaternion lookRotation = Quaternion.LookRotation(direction); //Rotacion a la que se va a mirar
-
-        //float angleY = lookRotation.eulerAngles.y; //Angulo de rotacion en Y
-
-        //float currentAngleY = rotationReference.transform.eulerAngles.y; //Angulo de rotacion actual en Y
-        //float newAngle = Mathf.LerpAngle(currentAngleY, angleY, rotationSpeed * Time.deltaTime); //Nuevo angulo de rotacion
-
-        //transform.eulerAngles = new Vector3(0, newAngle, 0); //Rotar el objeto
-
         if(targetLookAt == null) return;
 
         Vector3 direction = targetLookAt.transform.position - rotationReference.transform.position;

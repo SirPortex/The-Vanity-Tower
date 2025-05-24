@@ -18,3 +18,8 @@ MonoBehaviour:
       actionValue: 1
     nextState: {fileID: 11400000, guid: 819050f1fa49df64baa3ddba69a1deea, type: 2}
     and: 0
+  - actionParameters:
+    - action: {fileID: 11400000, guid: de6a814e3503692469576fe286311091, type: 2}
+      actionValue: 1
+    nextState: {fileID: 11400000, guid: f66e5a5d337975c41a21aaaba0d85926, type: 2}
+    and: 0

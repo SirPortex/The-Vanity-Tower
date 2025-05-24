@@ -151,8 +151,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   maxTime: 3
+  readyToDestroy: 0
+  damageCannon: 0
   player: {fileID: 0}
   bullet: {fileID: 2976053535238404097}
+  enemy: {fileID: 0}
   whatIsObstacle:
     serializedVersion: 2
     m_Bits: 448

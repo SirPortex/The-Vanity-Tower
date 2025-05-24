@@ -9,9 +9,12 @@ public class Bullet : MonoBehaviour
     public float maxTime;
 
     public bool readyToDestroy = false;
+    public bool damageCannon = false;
 
     public GameObject player;
     public GameObject bullet;
+    public GameObject enemy;
+
     public LayerMask whatIsObstacle;
 
     //public GameObjectPool bulletPool;
@@ -25,6 +28,7 @@ public class Bullet : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         player = GameObject.FindGameObjectWithTag("Player");
+        enemy = GameObject.FindGameObjectWithTag("SimpleCannon");
     }
 
     private void Update()
@@ -51,8 +55,24 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Hit Player");
             player.GetComponentInParent<PlayerEssence>().TakeDamage(10f);
+        }
+
+        if(other.gameObject.CompareTag("Block"))
+        {
+            Debug.Log("Bloqueado");
+
+            damageCannon = true;
+
+            SetDirection(_dir * -1f); //Invertir la direccion del disparo
+
+        }
+
+        if (other.gameObject.CompareTag("SimpleCannon") && damageCannon)
+        {
+            damageCannon = false;
+            enemy.GetComponentInChildren<CannonCanvas>().TakeEnemyDamage(25f);
+            readyToDestroy = true; //Bullet se "devuelve" a la pool
         }
 
         if (((1 << other.gameObject.layer) & whatIsObstacle) != 0 )
