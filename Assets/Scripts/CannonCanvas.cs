@@ -31,11 +31,21 @@ public class CannonCanvas : MonoBehaviour
         healthEnemySlider.value = currentEnemyHealth;
 
         transform.rotation = Quaternion.LookRotation(transform.position - playerCamera.transform.position);
+
+        UpdateHealthColor();
     }
 
     public void TakeEnemyDamage(float damage)
     {
         targetEnemyHealth -= damage;
         targetEnemyHealth = Mathf.Clamp(targetEnemyHealth, 0, maxEnemyHealth);
+    }
+
+    public void UpdateHealthColor()
+    {
+        float healthPercentage = currentEnemyHealth / maxEnemyHealth;
+
+        //healthEnemySlider.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(Color.red, Color.green, healthPercentage);
+        healthEnemySlider.fillRect.GetComponentInChildren<Image>().color = Color.Lerp(new Color(0.74f, 0.06f, 0.11f), new Color(0.71f, 0.99f, 0.49f), healthPercentage);
     }
 }
