@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerLeftArm : MonoBehaviour
 {
+    public GameObject lightPlayer;
     public PlayerMovement playerMovement;
+    PlayerEssence playerEssence;
 
     [Header("Pushing")]
 
@@ -50,7 +52,10 @@ public class PlayerLeftArm : MonoBehaviour
     {
         //gameObjects[1].gameObject.SetActive(false);
 
+        lightPlayer.gameObject.SetActive(false);
+
         playerMovement= GetComponentInParent<PlayerMovement>();
+        playerEssence = GetComponentInParent<PlayerEssence>();
         readyToEmote = true;
     }
 
@@ -198,6 +203,7 @@ public class PlayerLeftArm : MonoBehaviour
                 break;
             case 1:
 
+                Invoke(nameof(HealPotion), 1.5f);
                 DrinkPotion();
 
                 break;
@@ -228,6 +234,7 @@ public class PlayerLeftArm : MonoBehaviour
                 break;
             case 7:
 
+                lightPlayer.gameObject.SetActive(true);
                 gameObjects[ItemIndex].SetActive(true);
                 playerMovement.animator.SetBool("IsTorch", true);
                 StartCoroutine(StopTorch());
@@ -235,6 +242,12 @@ public class PlayerLeftArm : MonoBehaviour
                 break;
         }
     }
+
+    public void HealPotion()
+    {
+        playerEssence.Heal(100f);
+    }
+
     public void DrinkPotion()
     {
         gameObjects[ItemIndex].SetActive(true);
@@ -258,6 +271,7 @@ public class PlayerLeftArm : MonoBehaviour
     {
         yield return new WaitForSeconds(10f);
         playerMovement.animator.SetBool("IsTorch", false);
+        lightPlayer.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         gameObjects[ItemIndex].SetActive(false);
         readyToItem = true;
@@ -306,6 +320,9 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void Teddy()
     {
+        playerEssence.canFear = false;
+        playerEssence.DecreaseFear(100f);
+
         readyToTeddy = true;
         isTeddyActive = true;
         playerMovement.animator.SetBool("IsTeddy", true);
@@ -316,6 +333,7 @@ public class PlayerLeftArm : MonoBehaviour
 
     public void FinishTeddy()
     {
+        playerEssence.canFear = true;
         readyToTeddy = false;
         ActivateRightArm();
         playerMovement.animator.SetBool("IsTeddy", false);

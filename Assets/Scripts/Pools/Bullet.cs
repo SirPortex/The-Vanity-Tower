@@ -56,6 +56,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             player.GetComponentInParent<PlayerEssence>().TakeDamage(10f);
+            player.GetComponentInParent<PlayerEssence>().borderAnimator.SetBool("IsDamaged", true);
         }
 
         if(other.gameObject.CompareTag("Block"))

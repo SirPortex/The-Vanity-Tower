@@ -158,4 +158,4 @@ MonoBehaviour:
   enemy: {fileID: 0}
   whatIsObstacle:
     serializedVersion: 2
-    m_Bits: 448
+    m_Bits: 1472

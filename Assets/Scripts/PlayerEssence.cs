@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerEssence : MonoBehaviour
@@ -19,7 +20,14 @@ public class PlayerEssence : MonoBehaviour
 
     [Header("Fear")]
 
-    public float fear = 1f;
+    public bool fearReady;
+    public bool canFear;
+
+    public float maxFear = 100f;
+    public float currentFear;
+    public float targetFear;
+    public float fearVelocity = 0f;
+    public float fearSmoothTime = 0.3f;
 
     [Header("Emotions")]
 
@@ -28,14 +36,20 @@ public class PlayerEssence : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        borderAnimator.GetComponent<Animator>();
+
         currentHealth = maxhealth;
         targetHealth = maxhealth;
         healthSlider.maxValue = maxhealth;
         healthSlider.value = maxhealth;
 
-
-        fearSlider.value = fear;
-        borderAnimator.GetComponent<Animator>();
+        currentFear = 0;
+        targetFear = 0;
+        fearSlider.maxValue = maxFear;
+        fearSlider.value = 0;
+        fearReady = false;
+        canFear = true;
+        
     }
 
     // Update is called once per frame
@@ -43,6 +57,21 @@ public class PlayerEssence : MonoBehaviour
     {
         currentHealth = Mathf.SmoothDamp(currentHealth, targetHealth, ref veloicity, smoothTime);
         healthSlider.value = currentHealth;
+
+        currentFear = Mathf.SmoothDamp(currentFear, targetFear, ref fearVelocity, fearSmoothTime);
+        fearSlider.value = currentFear;
+
+        if (fearReady == false && canFear)
+        {
+            fearReady = true;
+            IncreaseFear(1f);
+            Invoke(nameof(FearOff), 1f);
+        }
+
+        if (targetHealth <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -50,7 +79,9 @@ public class PlayerEssence : MonoBehaviour
         targetHealth -= damage;
         targetHealth = Mathf.Clamp(targetHealth, 0, maxhealth);
 
-        borderAnimator.SetBool("IsDamaged", true);
+        IncreaseFear(10f);
+
+        //borderAnimator.SetBool("IsDamaged", true);
         Invoke(nameof(ReturnToIdle), 0.5f);
     }
 
@@ -60,8 +91,26 @@ public class PlayerEssence : MonoBehaviour
         targetHealth = Mathf.Clamp(targetHealth, 0, maxhealth);
     }
 
+    public void IncreaseFear(float fearIncrease)
+    {
+        targetFear += fearIncrease;
+        targetFear = Mathf.Clamp(targetFear, 0, maxFear);
+    }
+
+    public void DecreaseFear(float fearDecrease)
+    {
+        targetFear -= fearDecrease;
+        targetFear = Mathf.Clamp(targetFear, 0, maxFear);
+    }
+
+    public void FearOff()
+    {
+        fearReady = false;
+    }
+
     public void ReturnToIdle()
     {
         borderAnimator.SetBool("IsDamaged", false);
+        borderAnimator.SetBool("IsFire", false);
     }
 }

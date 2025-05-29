@@ -15,12 +15,14 @@ public class TestPickItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+
             PlayerLeftArm playerLeftArm = other.GetComponentInParent<PlayerLeftArm>();
             if (playerLeftArm != null && playerLeftArm.readyToItem && playerLeftArm.canItem)
             {
                 Debug.Log("Item picked up: " + index);
                 playerLeftArm.ItemIndex = index;
             }
+            Destroy(this.gameObject); // Destroy the item when picked up
         }
     }
 }
