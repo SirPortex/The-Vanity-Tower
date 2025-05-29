@@ -68,7 +68,7 @@ public class PlayerEssence : MonoBehaviour
             Invoke(nameof(FearOff), 1f);
         }
 
-        if (targetHealth <= 0)
+        if (currentHealth <= 1 || currentFear >= 99)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
@@ -79,7 +79,7 @@ public class PlayerEssence : MonoBehaviour
         targetHealth -= damage;
         targetHealth = Mathf.Clamp(targetHealth, 0, maxhealth);
 
-        IncreaseFear(10f);
+        IncreaseFear(5f);
 
         //borderAnimator.SetBool("IsDamaged", true);
         Invoke(nameof(ReturnToIdle), 0.5f);
